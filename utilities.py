@@ -1,4 +1,4 @@
-from math import atan2, asin, sqrt
+from math import atan2, asin, sqrt, copysign
 
 M_PI=3.1415926535
 
@@ -92,8 +92,21 @@ def euler_from_quaternion(quat):
     z = quat[2]
     w = quat[3]
 
-    yaw = math.atan2(2.0*(w*z+x*y), 1.0-2.0*(y**2+z**2))
+    # Roll (x-axis rotation)
+    roll = atan2(2.0 * (w * x + y * z),
+                        1.0 - 2.0 * (x * x + y * y))
+    
+    # Pitch (y-axis rotation)
+    sinp = 2.0 * (w * y - z * x)
+    if abs(sinp) >= 1:
+        pitch = copysign(M_PI / 2, sinp)  # Use 90 degrees if out of range
+    else:
+        pitch = asin(sinp)
+    
+    # Yaw (z-axis rotation) - this is what we need for 2D navigation
+    yaw = atan2(2.0 * (w * z + x * y),
+                       1.0 - 2.0 * (y * y + z * z))
     # just unpack yaw
-    return yaw
+    return [roll, pitch, yaw]
 
 
