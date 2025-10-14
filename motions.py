@@ -4,7 +4,7 @@ import rclpy
 from rclpy.node import Node
 
 from utilities import Logger, euler_from_quaternion
-from rclpy.qos import QoSProfile
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 # TODO Part 3: Import message types needed: 
     # For sending velocity commands to the robot: Twist
