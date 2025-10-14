@@ -38,6 +38,7 @@ class motion_executioner(Node):
         self.imu_initialized=False
         self.odom_initialized=False
         self.laser_initialized=False
+
         
         # TODO Part 3: Create a publisher to send velocity commands by setting the proper parameters in (...)
         self.vel_publisher=self.create_publisher(Twist, 'cmd_vel', 10)
@@ -77,7 +78,8 @@ class motion_executioner(Node):
             self.laser_callback,
             qos
         )
-        
+        self.spiral_counter = 0
+        self.line_counter = 0
         self.create_timer(0.1, self.timer_callback)
 
 
